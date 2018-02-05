@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { PokemonProvider } from '../../providers/pokemon/pokemon';
 
 @Component({
   selector: 'page-home',
@@ -7,8 +8,24 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  pokemon;
 
+  nextId : number;
+
+  constructor(public navCtrl: NavController, public pokemonProvider: PokemonProvider) {
+    this.nextId = 1;
+
+  }
+
+  getPokemon(){
+    this.pokemonProvider.getPokemon(this.nextId)
+    .subscribe(
+      (res) => {
+        this.nextId++;
+        this.pokemon = res;
+        console.log(this.pokemon);
+      }
+    )
   }
 
 }
